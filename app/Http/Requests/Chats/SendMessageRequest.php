@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Chats;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChatListRequest extends FormRequest
+class SendMessageRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,7 +14,8 @@ class ChatListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'userId' => 'nullable|exists:users,id',
+            'chat_id' => 'required|integer|exists:chats,id',
+            'message' => 'required|string'
         ];
     }
 }

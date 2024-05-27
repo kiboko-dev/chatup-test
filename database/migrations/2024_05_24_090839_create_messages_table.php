@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreign('chat_id')->references('id')->on('chats');
             $table->longText('message');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
