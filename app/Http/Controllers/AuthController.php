@@ -7,13 +7,31 @@ use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Knuckles\Scribe\Attributes as SA;
+use Symfony\Component\HttpFoundation\Response;
 
+#[
+    SA\Group('V1'),
+    SA\Subgroup('Авторизация')
+]
 class AuthController extends Controller
 {
     use Responses;
 
-    public function register(UserRegisterRequest $request): \Illuminate\Http\JsonResponse
+    #[SA\Endpoint(
+        title: 'Регистрация пользователя'
+    ),
+        SA\ResponseFromApiResource(
+            name: UserResource::class,
+            model: User::class,
+            status: Response::HTTP_OK,
+            description: 'Returns product list',
+            collection: true,
+        ),
+    ]
+    public function register(UserRegisterRequest $request): JsonResponse
     {
         $data = (object)$request->validated();
 
@@ -28,11 +46,26 @@ class AuthController extends Controller
         return $this->successResponseWithData(UserResource::make($user));
     }
 
-    public function login(UserLoginRequest $request): \Illuminate\Http\JsonResponse
+    #[
+        SA\Endpoint(
+            title: 'Авторизация пользователя',
+            description: 'Возвращает токен и авторизует пользователя'
+        ),
+        SA\Response(content: '{
+        "token":"4|q4e32r3r332532"}', status: Response::HTTP_OK, description: 'OK'),
+        SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
+        SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
+    ]
+    public function login(UserLoginRequest $request): JsonResponse
     {
         $data = (object)$request->validated();
 
         $user = User::whereEmail($data->email)->firstOrFail();
+
+        if (!Hash::check($data->password, $user->password)) {
+            $this->errorResponse('Wrong password', 403);
+        }
+
         $token = $user->createToken('auth_token');
 
         auth()->user()->token = $token->plainTextToken;
