@@ -46,4 +46,20 @@ trait Responses
         );
         throw new HttpResponseException($response);
     }
+
+    public function errorResponse(string $message, int $code = ResponseAlias::HTTP_BAD_REQUEST): JsonResponse
+    {
+        $response = response()->json(
+            data: [
+                'errors' => [
+                    'status' => $code,
+                    'detail' => $message,
+                ],
+            ],
+            status: $code,
+            headers: ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+            options: \JSON_UNESCAPED_UNICODE
+        );
+        throw new HttpResponseException($response);
+    }
 }
