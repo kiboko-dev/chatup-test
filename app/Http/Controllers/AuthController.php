@@ -8,6 +8,7 @@ use App\Http\Requests\User\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Knuckles\Scribe\Attributes as SA;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +53,12 @@ class AuthController extends Controller
             description: 'Возвращает токен и авторизует пользователя'
         ),
         SA\Response(content: '{
-        "token":"4|q4e32r3r332532"}', status: Response::HTTP_OK, description: 'OK'),
+    "data": [
+        {
+            "token": "12|2f4apy5GSa757nFKoAeKW4F1uBlyPV2DI5X3G0eEbf885ebd"
+        }
+    ]
+}', status: Response::HTTP_OK, description: 'OK'),
         SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
         SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
     ]
@@ -60,11 +66,21 @@ class AuthController extends Controller
     {
         $data = (object)$request->validated();
 
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
         $user = User::whereEmail($data->email)->firstOrFail();
 
         if (!Hash::check($data->password, $user->password)) {
             $this->errorResponse('Wrong password', 403);
         }
+
+        if (Auth::attempt($credentials)) {
+            session()->start();
+        }
+
 
         $token = $user->createToken('auth_token');
 
