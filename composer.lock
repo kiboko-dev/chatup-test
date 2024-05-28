@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "0a71f03357c4d4d1f2492cde8fc7f7ad",
+  "content-hash": "1e41e1ce978ea727cdbb3c2e85fc8075",
   "packages": [
     {
       "name": "brick/math",
@@ -5978,16 +5978,16 @@
     },
     {
       "name": "knuckleswtf/scribe",
-      "version": "4.35.0",
+      "version": "4.36.0",
       "source": {
         "type": "git",
         "url": "https://github.com/knuckleswtf/scribe.git",
-        "reference": "dd6696676981139de814bb0eeda7d5e5891a5244"
+        "reference": "1304e1503600b1fe8f6f546445de0ebd927386fa"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/dd6696676981139de814bb0eeda7d5e5891a5244",
-        "reference": "dd6696676981139de814bb0eeda7d5e5891a5244",
+        "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/1304e1503600b1fe8f6f546445de0ebd927386fa",
+        "reference": "1304e1503600b1fe8f6f546445de0ebd927386fa",
         "shasum": ""
       },
       "require": {
@@ -6061,7 +6061,7 @@
       ],
       "support": {
         "issues": "https://github.com/knuckleswtf/scribe/issues",
-        "source": "https://github.com/knuckleswtf/scribe/tree/4.35.0"
+        "source": "https://github.com/knuckleswtf/scribe/tree/4.36.0"
       },
       "funding": [
         {
@@ -6069,7 +6069,7 @@
           "type": "patreon"
         }
       ],
-      "time": "2024-03-26T20:58:51+00:00"
+      "time": "2024-05-27T21:51:57+00:00"
     },
     {
       "name": "laravel/pint",
