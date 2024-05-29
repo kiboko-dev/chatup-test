@@ -20,6 +20,12 @@ class Chat extends Model
         'partner_id'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+        'created_at',
+        'updated_at'
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');

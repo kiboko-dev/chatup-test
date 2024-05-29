@@ -18,6 +18,11 @@ class Message extends Model
         'message'
     ];
 
+    protected $hidden = [
+        'deleted_at',
+        'updated_at'
+    ];
+
     public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class);
