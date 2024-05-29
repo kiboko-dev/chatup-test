@@ -26,7 +26,23 @@ class ChatController extends Controller
             title: 'Список чатов',
             description: 'Возвращает список чатов авторизированного пользователя'
         ),
-        SA\Response(content: '', status: Response::HTTP_OK, description: 'OK'),
+        SA\Response(content: '
+         "data": [
+        {
+            "id": 1,
+            "owner_id": 1,
+            "partner_id": 2,
+            "messages": [
+                {
+                    "id": 1,
+                    "user_id": 1,
+                    "chat_id": 1,
+                    "message": "fuga",
+                    "created_at": "2024-05-29T11:55:16.000000Z"
+                }
+            ]
+        }
+    ]', status: Response::HTTP_OK, description: 'OK'),
         SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
         SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
     ]
@@ -44,7 +60,29 @@ class ChatController extends Controller
             title: 'Создать чат',
             description: 'Возвращает список чатов авторизированного пользователя'
         ),
-        SA\Response(content: '', status: Response::HTTP_OK, description: 'OK'),
+        SA\Response(content: '
+        {
+    "data": [
+        {
+            "id": 1,
+            "owner_id": 1,
+            "partner_id": 2,
+            "owner": {
+                "id": 1,
+                "first_name": "Sergey",
+                "last_name": "Pupkin",
+                "email": "spam@runum.ru"
+            },
+            "partner": {
+                "id": 2,
+                "first_name": "Mark",
+                "last_name": "Pupkin",
+                "email": "spam2@runum.ru"
+            }
+        }
+    ]
+}
+        ', status: Response::HTTP_OK, description: 'OK'),
         SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
         SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
     ]
@@ -53,12 +91,12 @@ class ChatController extends Controller
         $user = auth()->user();
         $data = $request->validated();
 
-        $chat = Chat::create([
+        $chat = Chat::firstOrCreate([
             'owner_id' => $user->id,
             'partner_id' => $data['partner_id'],
         ]);
 
-        return $this->successResponseWithData($chat->with(['owner', 'partner'])->get());
+        return $this->successResponseWithData($chat->with(['owner', 'partner'])->first());
     }
 
     #[
@@ -66,7 +104,40 @@ class ChatController extends Controller
             title: 'Показать чат',
             description: 'Возвращает список чатов авторизированного пользователя'
         ),
-        SA\Response(content: '', status: Response::HTTP_OK, description: 'OK'),
+        SA\Response(content: '
+        {
+    "data": [
+        [
+            {
+                "id": 1,
+                "owner_id": 1,
+                "partner_id": 2,
+                "owner": {
+                    "id": 1,
+                    "first_name": "Sergey",
+                    "last_name": "Pupkin",
+                    "email": "spam@runum.ru"
+                },
+                "partner": {
+                    "id": 2,
+                    "first_name": "Mark",
+                    "last_name": "Pupkin",
+                    "email": "spam2@runum.ru"
+                },
+                "messages": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "chat_id": 1,
+                        "message": "fuga",
+                        "created_at": "2024-05-29T11:55:16.000000Z"
+                    }
+                ]
+            }
+        ]
+    ]
+}
+        ', status: Response::HTTP_OK, description: 'OK'),
         SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
         SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
     ]
@@ -83,7 +154,7 @@ class ChatController extends Controller
 
         $this->checkAccess($chat);
 
-        return $this->successResponseWithData($chat->with(['owner', 'partner', 'messages'])->get());
+        return $this->successResponseWithData($chat->with(['owner', 'partner', 'messages']));
     }
 
     #[
@@ -107,7 +178,45 @@ class ChatController extends Controller
             title: 'Отправить сообщение в чат',
             description: 'Возвращает список чатов авторизированного пользователя'
         ),
-        SA\Response(content: '', status: Response::HTTP_OK, description: 'OK'),
+        SA\Response(content: '
+        {
+    "data": [
+        {
+            "id": 1,
+            "owner_id": 1,
+            "partner_id": 2,
+            "owner": {
+                "id": 1,
+                "first_name": "Sergey",
+                "last_name": "Pupkin",
+                "email": "spam@runum.ru"
+            },
+            "partner": {
+                "id": 2,
+                "first_name": "Mark",
+                "last_name": "Pupkin",
+                "email": "spam2@runum.ru"
+            },
+            "messages": [
+                {
+                    "id": 1,
+                    "user_id": 1,
+                    "chat_id": 1,
+                    "message": "fuga",
+                    "created_at": "2024-05-29T11:55:16.000000Z"
+                },
+                {
+                    "id": 2,
+                    "user_id": 1,
+                    "chat_id": 1,
+                    "message": "fuga",
+                    "created_at": "2024-05-29T14:20:56.000000Z"
+                }
+            ]
+        }
+    ]
+}
+        ', status: Response::HTTP_OK, description: 'OK'),
         SA\Response(content: '', status: Response::HTTP_BAD_REQUEST, description: 'Bad request'),
         SA\Response(content: '', status: Response::HTTP_CONFLICT, description: 'Conflict'),
     ]
