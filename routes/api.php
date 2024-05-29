@@ -15,8 +15,10 @@ Route::prefix('v1')
         Route::middleware('auth:sanctum')
             ->group(function () {
                 Route::get('/users', [UserController::class, 'index']);
-                Route::get('/users/{user}', [UserController::class, 'show']);
 
+                Route::resource('/chat', ChatController::class)
+                    ->only(['show', 'destroy', 'store']);
                 Route::get('/chats', [ChatController::class, 'index']);
+                Route::post('/chat/send-message', [ChatController::class, 'sendMessage']);
             });
     });
