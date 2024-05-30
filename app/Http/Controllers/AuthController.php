@@ -81,7 +81,6 @@ class AuthController extends Controller
             session()->start();
         }
 
-
         $token = $user->createToken('auth_token');
 
         auth()->user()->token = $token->plainTextToken;

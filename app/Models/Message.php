@@ -12,15 +12,16 @@ class Message extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'messages';
+
     protected $fillable = [
         'chat_id',
         'user_id',
-        'message'
+        'message',
     ];
 
     protected $hidden = [
         'deleted_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function chat(): BelongsTo

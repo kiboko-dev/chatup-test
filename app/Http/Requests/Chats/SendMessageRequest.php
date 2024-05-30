@@ -19,7 +19,7 @@ class SendMessageRequest extends FormRequest
     {
         return [
             'chat_id' => 'required|integer|exists:chats,id',
-            'message' => 'required|string'
+            'message' => 'required|string',
         ];
     }
 }

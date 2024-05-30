@@ -38,7 +38,7 @@ class User extends Authenticatable
         'api_token',
         'created_at',
         'updated_at',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     protected function casts(): array

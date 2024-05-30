@@ -27,7 +27,7 @@ class ChatTest extends TestCase
 
         $response = $this->withHeaders([
             'Content-Type' => 'application/json',
-            'accept' => 'application/json'
+            'accept' => 'application/json',
         ])->withToken('1|QHVu1gHcqfAqxEsu5VHCxSc4FCv5T476hccYTUA5dbd8b07e')
             ->get('api/v1/chat/'.$chat->id);
 
@@ -38,7 +38,7 @@ class ChatTest extends TestCase
     {
         $response = $this->withHeaders([
             'Content-Type' => 'application/json',
-            'accept' => 'application/json'
+            'accept' => 'application/json',
         ])->withToken('1|QHVu1gHcqfAqxEsu5VHCxSc4FCv5T476hccYTUA5dbd8b07e')
             ->get('api/v1/chats');
 
@@ -48,13 +48,13 @@ class ChatTest extends TestCase
     public function test_message_send()
     {
         $partner = User::create([
-            'email' => "test".rand(1, 100)."@test.com",
+            'email' => 'test'.rand(1, 100).'@test.com',
             'password' => 'pass13324',
             'last_name' => 'Testov',
             'first_name' => 'Test',
         ]);
         $owner = User::create([
-            'email' => "test".rand(1, 100)."@test.com",
+            'email' => 'test'.rand(1, 100).'@test.com',
             'password' => 'pass13324',
             'last_name' => 'Testov',
             'first_name' => 'Test',
@@ -63,11 +63,11 @@ class ChatTest extends TestCase
 
         $response = $this->withHeaders([
             'Content-Type' => 'application/json',
-            'accept' => 'application/json'
+            'accept' => 'application/json',
         ])->withToken('1|QHVu1gHcqfAqxEsu5VHCxSc4FCv5T476hccYTUA5dbd8b07e')
             ->post('api/v1/chat/send-message', [
                 'chat_id' => $chat->id,
-                'message' => 'test message'
+                'message' => 'test message',
             ]);
 
         $response->assertStatus(422);
@@ -79,7 +79,7 @@ class ChatTest extends TestCase
 
         $response = $this->withHeaders([
             'Content-Type' => 'application/json',
-            'accept' => 'application/json'
+            'accept' => 'application/json',
         ])->withToken('1|QHVu1gHcqfAqxEsu5VHCxSc4FCv5T476hccYTUA5dbd8b07e')
             ->delete('api/v1/chat/'.$chat->id);
 
@@ -89,7 +89,7 @@ class ChatTest extends TestCase
     private function getChat(int $ownerId = 1, int $partnerId = 2): Chat
     {
         $chat = Chat::first();
-        if (null === $chat) {
+        if ($chat === null) {
             $chat = Chat::create([
                 'owner_id' => $ownerId,
                 'partner_id' => $partnerId,

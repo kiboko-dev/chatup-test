@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 #[AllowDynamicProperties] class AuthTest extends TestCase
 {
-
     public function test_registration($random = 10): void
     {
         $response = $this
@@ -16,10 +15,10 @@ use Tests\TestCase;
                 'Content-Type' => 'application/json',
             ])
             ->post('/api/v1/auth/register', [
-                'email' => "john10@doe.com",
+                'email' => 'john10@doe.com',
                 'password' => 'password',
                 'lastName' => 'Doe',
-                'firstName' => 'John'
+                'firstName' => 'John',
             ]);
 
         $response->assertStatus(302);
@@ -45,7 +44,7 @@ use Tests\TestCase;
     {
         $response = $this->withHeaders([
             'Content-Type' => 'application/json',
-            'accept' => 'application/json'
+            'accept' => 'application/json',
         ])->withToken('1|QHVu1gHcqfAqxEsu5VHCxSc4FCv5T476hccYTUA5dbd8b07e')
             ->get('api/v1/users');
 

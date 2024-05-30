@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Responses;
-use App\Http\Requests\Chats\ChatListRequest;
 use App\Http\Requests\Chats\ChatStoreRequest;
 use App\Http\Requests\Chats\SendMessageRequest;
 use App\Models\Chat;
 use App\Models\Message;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Knuckles\Scribe\Attributes as SA;
 use Symfony\Component\HttpFoundation\Response;
@@ -145,7 +143,7 @@ class ChatController extends Controller
     {
         $chat = Chat::find($chatId);
 
-        if (null === $chat) {
+        if ($chat === null) {
             $this->errorResponse(
                 'Chat not found',
                 404
@@ -170,6 +168,7 @@ class ChatController extends Controller
     {
         $this->checkAccess($chat);
         $chat->delete();
+
         return $this->successResponse();
     }
 

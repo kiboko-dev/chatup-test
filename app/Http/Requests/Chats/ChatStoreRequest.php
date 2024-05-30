@@ -17,7 +17,7 @@ class ChatStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'partner_id' => 'required|integer|exists:users,id'
+            'partner_id' => 'required|integer|exists:users,id',
         ];
     }
 }
